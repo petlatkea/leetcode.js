@@ -15,6 +15,8 @@
  * into numbers, and encoding numbers back into lists.
  * It could be done with loops, but the "reverse" numbers would require a lot of additional counting.
  * 
+ * Okay, got really annoying with the BigInt values after 1560 test-cases ... fixed though ... 
+ * maybe could be avoided by doing math on the list themselves, but now I don't want to!
  */
 
 /**
@@ -37,9 +39,9 @@ var addTwoNumbers = function(l1, l2) {
 */
 function listToNum(list) {
   if(list.next) {
-    return list.val + listToNum(list.next) * 10;
+    return BigInt(list.val) + listToNum(list.next) * 10n;
   } else {
-    return list.val;
+    return BigInt(list.val);
   }
 }
 
@@ -47,8 +49,8 @@ function numToList(num) {
   if(num < 10) {
     return new ListNode(num);
   } else {
-    const digit = num % 10;
-    const remain = (num - digit) / 10;
+    const digit = BigInt(num) % 10n;
+    const remain = BigInt(num - digit) / 10n;
     return new ListNode(digit, numToList(remain));
   }
 }
@@ -58,8 +60,25 @@ function ListNode(val, next) {
    this.next = (next===undefined ? null : next)
 }
 
-// TESTs
+function arrayToList(arr, index=0) {
+  if(index < arr.length-1) {
+    return new ListNode(arr[index], arrayToList(arr,index+1));
+  } else {
+    return new ListNode(arr[index])
+  }
+}
 
+const l1 = arrayToList([1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]);
+const l2 = arrayToList([5,6,4]);
+
+const result = addTwoNumbers(l1,l2);
+console.log(result);
+
+//console.log(l1);
+//console.log(listToNum(l1));
+
+// TESTs
+/*
 const l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
 const v1 = listToNum(l1);
 console.log("list:", l1);
@@ -76,3 +95,4 @@ const l2 = new ListNode(5, new ListNode(6, new ListNode(4)));
 
 const result = addTwoNumbers(l1,l2);
 console.log(result);
+*/
