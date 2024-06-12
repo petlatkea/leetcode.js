@@ -19,3 +19,23 @@
     // return the length of the array until vals
     return last+1;
 };
+
+/* alternate solution - faster? */
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
+var removeElement2 = function(nums, val) {
+    // keep a pointer to the next index to "insert" found value
+    let j=0;
+    // scan through the entire array
+    for(let i=0; i < nums.length; i++) {
+        // if we find a val
+        if(nums[i] != val) {
+            // swap pointer with this one
+            nums[j++] = nums[i];
+        }
+    }
+    return j;
+};
